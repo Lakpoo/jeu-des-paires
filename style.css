@@ -1,0 +1,54 @@
+.jeu {
+  width: 100%;
+  display: flex;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+.dahsboard {
+  width: 20%;
+}
+
+#planche {
+  display: flex;
+  flex-wrap: wrap;
+  width: 50rem;
+}
+
+.card {
+  width: 150px;
+  height: 150px;
+  background-color: #007bff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  margin: 1rem;
+}
+
+.card.hidden img {
+  opacity: 0;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.card.matched img {
+  opacity: 1;
+}
+
+.card.hidden {
+  background-color: #ddd;
+}
