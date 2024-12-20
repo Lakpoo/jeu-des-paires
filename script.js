@@ -7,6 +7,24 @@ let clickCounter = 0;
 let isChecking = false;
 
 let score = 0;
+let bestScore = 0;
+
+function getBestScore() {
+  const savedBestScore = localStorage.getItem("bestScore");
+  return savedBestScore ? parseInt(savedBestScore) : 0;
+}
+
+function updateBestScore() {
+  if (score > bestScore) {
+    bestScore = score;
+    localStorage.setItem("bestScore", bestScore.toString());
+  }
+}
+
+function updateScoreDisplay() {
+  document.getElementById("score-display").textContent = `Score : ${score}`;
+  document.getElementById("best-score-display").textContent = `Meilleur score : ${bestScore}`;
+}
 
 function creationPlanche(images) {
   const planche = document.getElementById("planche");
@@ -25,6 +43,16 @@ function creationPlanche(images) {
 
     card.addEventListener("click", handleCardClick);
   });
+
+  const affichageScore = document.createElement("div");
+  affichageScore.id = "score-display";
+  document.body.insertBefore(affichageScore, planche);
+
+  const affichageBestScore = document.createElement("div");
+  affichageBestScore.id = "best-score-display";
+  document.body.insertBefore(affichageBestScore, planche);
+
+  updateScoreDisplay();
 }
 
 function handleCardClick(event) {
@@ -50,17 +78,37 @@ function checkMatch() {
     card1.classList.add("matched");
     card2.classList.add("matched");
     matchedPairs++;
+    score += 200;
     if (matchedPairs === images.length) {
-      setTimeout(() => alert("BRAVO LE BOSS TU A GAGNER"), 500);
+      endGame();
     }
   } else {
     card1.classList.add("hidden");
     card2.classList.add("hidden");
+    score -= 50;
   }
+
+  updateScoreDisplay();
 
   flippedCards = [];
   clickCounter = 0;
   isChecking = false;
 }
 
-creationPlanche(imagesMelange);
+function endGame() {
+  updateBestScore();
+  updateScoreDisplay();
+  setTimeout(() => {
+    alert(`BRAVO LE BOSS TU AS GAGNÉ!\Tu a eu : ${score}`);
+  }, 500);
+}
+
+function initGame() {
+  bestScore = getBestScore();
+
+  creationPlanche(imagesMelange);
+
+  updateScoreDisplay();
+}
+
+window.addEventListener("load", initGame);
