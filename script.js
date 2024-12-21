@@ -36,6 +36,7 @@ function creationPlanche(images) {
 
     const img = document.createElement("img");
     img.src = image;
+    img.draggable = false;
     img.classList.add("card-image");
 
     card.appendChild(img);
